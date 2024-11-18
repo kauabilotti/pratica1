@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Chamados</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Lista de Chamados</h1>
+    <table id="chamadosTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Criticidade</th>
+                <th>Status</th>
+                <th>Cliente</th>
+                <th>Data de Abertura</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        async function fetchChamados() {
+            const response = await fetch('../backend/listar_chamados.php');
+            const chamados = await response.json();
+
+            const tableBody = document.querySelector('#chamadosTable tbody');
+            tableBody.innerHTML = '';
+
+            chamados.forEach((chamado) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${chamado.ID_chamado}</td>
+                    <td>${chamado.Descricao}</td>
+                    <td>${chamado.Criticidade}</td>
+                    <td>${chamado.Statu_}</td>
+                    <td>${chamado.Cliente}</td>
+                    <td>${chamado.Data_abertura}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        fetchChamados();
+    </script>
+</body>
+</html>

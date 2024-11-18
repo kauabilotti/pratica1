@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Cliente e Chamado</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Cadastro de Cliente e Chamado</h1>
+    <form id="cadastroForm">
+        <h2>Dados do Cliente</h2>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" required>
+
+        <h2>Detalhes do Chamado</h2>
+        <label for="descricao">Descrição do Problema:</label>
+        <textarea id="descricao" name="descricao" required></textarea>
+        <label for="criticidade">Criticidade:</label>
+        <select id="criticidade" name="criticidade" required>
+            <option value="baixa">Baixa</option>
+            <option value="média">Média</option>
+            <option value="alta">Alta</option>
+        </select>
+        <button type="submit">Cadastrar</button>
+    </form>
+    <div id="response"></div>
+    <script>
+        document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            const response = await fetch('../backend/cadastro_cliente_chamado.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.text();
+            document.getElementById('response').innerText = result;
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>
